@@ -1,0 +1,2 @@
+export DOCKER_HOST="tcp://pihab:2375"
+export COMPOSE_HTTP_TIMEOUT=200

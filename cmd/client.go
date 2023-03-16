@@ -9,6 +9,7 @@ import (
 	"log"
 	"os"
 	"strings"
+	"time"
 
 	"github.com/inlets/inlets/pkg/client"
 	"github.com/pkg/errors"
@@ -58,7 +59,7 @@ func buildUpstreamMap(args string) (map[string]string, error) {
 
 	for k, v := range items {
 		hasScheme := (strings.HasPrefix(v, "http://") || strings.HasPrefix(v, "https://"))
-		if hasScheme == false {
+		if !hasScheme {
 			items[k] = fmt.Sprintf("http://%s", v)
 		}
 	}
@@ -164,7 +165,7 @@ func runClient(cmd *cobra.Command, _ []string) error {
 	if len(url) == 0 {
 		return fmt.Errorf("--url is required")
 	}
-	if strings.HasPrefix(url, "ws://") == false && strings.HasPrefix(url, "wss://") == false {
+	if !strings.HasPrefix(url, "ws://") && !strings.HasPrefix(url, "wss://") {
 		return fmt.Errorf("--url should be prefixed with ws:// (insecure) or wss:// (secure)")
 	}
 
@@ -200,9 +201,14 @@ encryption.
 		StrictForwarding: strictForwarding,
 	}
 
-	if err := inletsClient.Connect(); err != nil {
-		return err
+	for {
+		if err := inletsClient.Connect(); err != nil {
+
+			time.Sleep(time.Duration(time.Minute * 5))
+			log.Print("Attempting reconnection...")
+			// return err
+		}
 	}
 
-	return nil
+	// return nil
 }

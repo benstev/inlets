@@ -18,6 +18,8 @@ var (
 
 func init() {
 	inletsCmd.AddCommand(versionCmd)
+	inletsCmd.AddCommand(serverCmd)
+	inletsCmd.AddCommand(clientCmd)
 }
 
 // inletsCmd represents the base command when called without any sub commands.
