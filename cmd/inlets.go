@@ -65,7 +65,6 @@ func parseBaseCommand(_ *cobra.Command, _ []string) {
 // Execute adds all child commands to the root command(InletsCmd) and sets flags appropriately.
 // This is called by main.main(). It only needs to happen once to the InletsCmd.
 func Execute(version, gitCommit string) error {
-
 	// Get Version and GitCommit values from main.go.
 	Version = version
 	GitCommit = gitCommit
