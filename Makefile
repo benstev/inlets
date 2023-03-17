@@ -13,3 +13,9 @@ build:
 .PHONY: docker-build
 docker-build:
 	docker build -t inlets .
+	docker tag inlets benono/inlets
+
+.PHONY: publish
+publish:
+	docker push benono/inlets
+
